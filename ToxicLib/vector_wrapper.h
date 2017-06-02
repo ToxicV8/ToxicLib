@@ -4,10 +4,24 @@
 BEGIN_NAMESPACE(toxic_lib)
 BEGIN_NAMESPACE(wrapper)
 
-template<class T>
+template<class T, class Allocator = allocator<T>>
 class vector_wrapper
 {
 public:
+
+    vector_wrapper() = default;
+
+    explicit vector_wrapper( const Allocator& allocator ) noexcept : object( allocator )
+    {	// construct empty vector, allocator
+    }
+
+    explicit vector_wrapper( const size_t count, const Allocator& allocator = allocator() ) : object( count, allocator )
+    {
+    }
+
+    vector_wrapper( const size_t count, const T& val, const Allocator& allocator = Allocator() ) : object( count, val, allocator )
+    {
+    }
 
     std::vector<T>& operator() ()
     {
